@@ -1,0 +1,7 @@
+pod "RDLoveSeeker", :path => "../RDLoveSeeker.podspec"
+
+target "Demo" do
+end
+
+target "DemoTests" do
+end
