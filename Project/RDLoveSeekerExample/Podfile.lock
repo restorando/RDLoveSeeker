@@ -1,17 +1,17 @@
 PODS:
   - OCMock (3.1.1)
-  - RDLoveSeeker (0.2.1)
+  - RDLoveSeeker (0.1.0)
 
 DEPENDENCIES:
   - OCMock
-  - RDLoveSeeker (from `../../RDLoveSeeker.podspec`)
+  - RDLoveSeeker (from `git@github.com:restorando/RDLoveSeeker.git`)
 
 EXTERNAL SOURCES:
   RDLoveSeeker:
-    :path: ../../RDLoveSeeker.podspec
+    :git: git@github.com:restorando/RDLoveSeeker.git
 
 SPEC CHECKSUMS:
   OCMock: f6cb8c162ab9d5620dddf411282c7b2c0ee78854
-  RDLoveSeeker: fadff971716ad30a092a054d0f638d466f16b5a5
+  RDLoveSeeker: 46725d3260ba1c97efae9232afd35f3bb2428891
 
 COCOAPODS: 0.33.1

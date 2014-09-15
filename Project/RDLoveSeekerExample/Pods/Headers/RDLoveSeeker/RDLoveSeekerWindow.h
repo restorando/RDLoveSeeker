@@ -1,1 +1,1 @@
-../../../../../Classes/ios/RDLoveSeekerWindow.h
+../../RDLoveSeeker/Classes/ios/RDLoveSeekerWindow.h

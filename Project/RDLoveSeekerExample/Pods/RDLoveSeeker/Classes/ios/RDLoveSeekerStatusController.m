@@ -15,25 +15,43 @@
 #define kHasBeenShown @"love_seeker_has_been_shown"
 #define kLastVersionRequested @"love_seeker_last_version_requested"
 
-static UIViewController *rootViewController;
-static RDLoveSeekerViewController *loveSeekerVC;
+static RDLoveSeekerStatusController *_sharedInstance;
+
+@interface RDLoveSeekerStatusController()
+
+@property (nonatomic, strong) UIViewController *rootViewController;
+@property (nonatomic, strong) RDLoveSeekerViewController *loveSeekerVC;
+
+@end
 
 @implementation RDLoveSeekerStatusController
 
-+ (void) setHasBeenShown: (BOOL) b
++ (RDLoveSeekerStatusController *) sharedInstance
 {
-    if (b) [self.class setCurrentVersionAsLast];
+    if (!_sharedInstance)
+    {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _sharedInstance = [[RDLoveSeekerStatusController alloc] init];
+        });
+    }
+
+    return _sharedInstance;
+}
+- (void) setHasBeenShown: (BOOL) b
+{
+    if (b) [self setCurrentVersionAsLast];
 
     [[NSUserDefaults standardUserDefaults] setBool: b forKey:kHasBeenShown];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (BOOL) hasBeenShown
+- (BOOL) hasBeenShown
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey: kHasBeenShown];
 }
 
-+ (void) setInstallDate
+- (void) setInstallDate
 {
     NSDate *date = [NSDate date];
     RDLSLog(@"Storing install date: %@", [date description]);
@@ -41,39 +59,40 @@ static RDLoveSeekerViewController *loveSeekerVC;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (NSString *) currentBuildVersion
+- (NSString *) currentBuildVersion
 {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     return [info objectForKey:@"CFBundleShortVersionString"];
 }
 
-+ (void) setCurrentVersionAsLast
+- (void) setCurrentVersionAsLast
 {
-    RDLSLog(@"setting %@ as last version used", [self.class currentBuildVersion]);
-    [[NSUserDefaults standardUserDefaults] setObject: [self.class currentBuildVersion] forKey:kLastVersionRequested];
+    RDLSLog(@"setting %@ as last version used", [self currentBuildVersion]);
+    [[NSUserDefaults standardUserDefaults] setObject: [self currentBuildVersion] forKey:kLastVersionRequested];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (void) resetAllCounters
+- (void) resetAllCounters
 {
-    [self.class setHasBeenShown: NO];
-    [self.class setInstallDate];
-    [self.class setCurrentVersionAsLast];
+    [self setHasBeenShown: NO];
+    [self setInstallDate];
+    [self setCurrentVersionAsLast];
     [[NSUserDefaults standardUserDefaults] setInteger: 0 forKey: kSignificantEvents];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (void) requestUserRating
+- (void) requestUserRating
 {
-    if (!loveSeekerVC) {
+    if (!self.loveSeekerVC) {
+        __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             RDLSLog(@"Requesting user rating.");
             UIWindow *window = [[UIApplication sharedApplication] keyWindow];
             
-            loveSeekerVC = [[RDLoveSeekerViewController alloc] init];
+            weakSelf.loveSeekerVC = [[RDLoveSeekerViewController alloc] init];
             
-            [window.rootViewController addChildViewController: loveSeekerVC];
-            [window.rootViewController.view addSubview: loveSeekerVC.view];
+            [window.rootViewController addChildViewController: weakSelf.loveSeekerVC];
+            [window.rootViewController.view addSubview: weakSelf.loveSeekerVC.view];
         });
     }
     else {
@@ -81,24 +100,24 @@ static RDLoveSeekerViewController *loveSeekerVC;
     }
 }
 
-+ (void) dismissAndRestoreApp
+- (void) dismissAndRestoreApp
 {
-    [loveSeekerVC removeFromParentViewController];
-    [loveSeekerVC.view removeFromSuperview];
-    loveSeekerVC = nil;
+    [self.loveSeekerVC removeFromParentViewController];
+    [self.loveSeekerVC.view removeFromSuperview];
+    self.loveSeekerVC = nil;
 }
 
-+ (NSString *) lastVersionUsed
+- (NSString *) lastVersionUsed
 {
     return [[NSUserDefaults standardUserDefaults] stringForKey:kLastVersionRequested];
 }
 
-+ (NSDate *) installDate
+- (NSDate *) installDate
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey: kInstallDate];
 }
 
-+ (void) logSignificantEvent
+- (void) logSignificantEvent
 {
     NSInteger events = [[NSUserDefaults standardUserDefaults] integerForKey: kSignificantEvents];
     [[NSUserDefaults standardUserDefaults] setInteger: ++events forKey: kSignificantEvents];
@@ -106,7 +125,7 @@ static RDLoveSeekerViewController *loveSeekerVC;
     [RDLoveSeeker verifyIfNeedsToBeShown];
 }
 
-+ (NSInteger) significantEvents
+- (NSInteger) significantEvents
 {
     return [[NSUserDefaults standardUserDefaults] integerForKey: kSignificantEvents];
 }

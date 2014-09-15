@@ -133,14 +133,14 @@ typedef enum {
 
 - (void) askAgainLater
 {
-    [RDLoveSeekerStatusController resetAllCounters];
-    [RDLoveSeekerStatusController dismissAndRestoreApp];
+    [[RDLoveSeekerStatusController sharedInstance] resetAllCounters];
+    [[RDLoveSeekerStatusController sharedInstance] dismissAndRestoreApp];
 }
 
 - (void) doNotAskAgain
 {
-    [RDLoveSeekerStatusController setHasBeenShown: YES];
-    [RDLoveSeekerStatusController dismissAndRestoreApp];
+    [[RDLoveSeekerStatusController sharedInstance] setHasBeenShown: YES];
+    [[RDLoveSeekerStatusController sharedInstance] dismissAndRestoreApp];
 }
 
 #pragma mark UIAlertViewDelegate

@@ -1,1 +1,1 @@
-../../../../../Classes/ios/RDLoveSeeker.h
+../../RDLoveSeeker/Classes/ios/RDLoveSeeker.h

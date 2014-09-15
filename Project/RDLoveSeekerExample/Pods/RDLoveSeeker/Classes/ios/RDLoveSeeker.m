@@ -22,19 +22,19 @@ static id<RDLoveSeekerDelegate> delegate;
 
 + (void) logSignificantEvent
 {
-    [RDLoveSeekerStatusController logSignificantEvent];
+    [[RDLoveSeekerStatusController sharedInstance] logSignificantEvent];
 }
 
 + (void) verifyIfNeedsToBeShown
 {
-    if ([RDLoveSeekerStatusController hasBeenShown])
+    if ([[RDLoveSeekerStatusController sharedInstance] hasBeenShown])
     {
         RDLSLog(@"Already shown!");
         
-        if (shouldRequestOnNewVersion && ![[RDLoveSeekerStatusController currentBuildVersion] isEqualToString: [RDLoveSeekerStatusController lastVersionUsed]])
+        if (shouldRequestOnNewVersion && ![[[RDLoveSeekerStatusController sharedInstance] currentBuildVersion] isEqualToString: [[RDLoveSeekerStatusController sharedInstance] lastVersionUsed]])
         {
             RDLSLog(@"Version changed from %@ to %@. Reseting counters.", [RDLoveSeekerStatusController lastVersionUsed], [RDLoveSeekerStatusController currentBuildVersion]);
-            [RDLoveSeekerStatusController resetAllCounters];
+            [[RDLoveSeekerStatusController sharedInstance]resetAllCounters];
         }
         else
         {
@@ -42,16 +42,16 @@ static id<RDLoveSeekerDelegate> delegate;
         }
     }
     
-    NSDate *installDate = [RDLoveSeekerStatusController installDate];
+    NSDate *installDate = [[RDLoveSeekerStatusController sharedInstance]installDate];
     
-    if (!installDate) [RDLoveSeekerStatusController setInstallDate];
+    if (!installDate) [[RDLoveSeekerStatusController sharedInstance]setInstallDate];
     
     //Verifying for time frame
     NSDate *now = [NSDate date];
     if ([now timeIntervalSinceDate: installDate] > (daysToRequestRating * 24 * 60 * 60))
     {
         RDLSLog(@"Time frame condition met.");
-        [RDLoveSeekerStatusController requestUserRating];
+        [[RDLoveSeekerStatusController sharedInstance] requestUserRating];
         return;
     }
     else
@@ -60,10 +60,10 @@ static id<RDLoveSeekerDelegate> delegate;
     }
     
     //Verifying for events frame
-    NSInteger events = [RDLoveSeekerStatusController significantEvents];
+    NSInteger events = [[RDLoveSeekerStatusController sharedInstance] significantEvents];
     if (events >= eventsToRequestRating) {
         RDLSLog(@"Events condition met.");
-        [RDLoveSeekerStatusController requestUserRating];
+        [[RDLoveSeekerStatusController sharedInstance] requestUserRating];
         return;
     }
     else

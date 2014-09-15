@@ -1,1 +1,1 @@
-../../../../../Classes/ios/RDLoveSeekerViewController.h
+../../RDLoveSeeker/Classes/ios/RDLoveSeekerViewController.h

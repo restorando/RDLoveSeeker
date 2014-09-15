@@ -1,1 +1,1 @@
-../../../../../Classes/ios/RDLoveSeekerStatusController.h
+../../RDLoveSeeker/Classes/ios/RDLoveSeekerStatusController.h

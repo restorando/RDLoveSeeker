@@ -10,19 +10,21 @@
 
 @interface RDLoveSeekerStatusController : NSObject
 
-+ (void) dismissAndRestoreApp;
++ (RDLoveSeekerStatusController *) sharedInstance;
 
-+ (void) resetAllCounters;
-+ (void) setHasBeenShown: (BOOL) hasBeenShown;
+- (void) dismissAndRestoreApp;
 
-+ (BOOL) hasBeenShown;
-+ (NSString *) currentBuildVersion;
-+ (NSString *) lastVersionUsed;
-+ (NSDate *) installDate;
-+ (void) setInstallDate;
-+ (void) logSignificantEvent;
+- (void) resetAllCounters;
+- (void) setHasBeenShown: (BOOL) hasBeenShown;
 
-+ (void) requestUserRating;
-+ (NSInteger) significantEvents;
+- (BOOL) hasBeenShown;
+- (NSString *) currentBuildVersion;
+- (NSString *) lastVersionUsed;
+- (NSDate *) installDate;
+- (void) setInstallDate;
+- (void) logSignificantEvent;
+
+- (void) requestUserRating;
+- (NSInteger) significantEvents;
 
 @end
