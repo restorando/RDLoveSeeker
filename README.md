@@ -12,7 +12,7 @@ To run the example project; clone the repo, and run `pod install` from the Proje
 RDLoveSeeker will be soon available through [CocoaPods](http://cocoapods.org).
 To install it simply add the following line to your Podfile:
 
-    pod 'RDLoveSeeker', :git => 'git@github.com:Restorando/RDLoveSeeker.git'
+    pod 'RDLoveSeeker'
 
 ## Author
 
