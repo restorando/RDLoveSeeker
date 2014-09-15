@@ -1,0 +1,17 @@
+PODS:
+  - OCMock (3.1.1)
+  - RDLoveSeeker (0.2.1)
+
+DEPENDENCIES:
+  - OCMock
+  - RDLoveSeeker (from `../../RDLoveSeeker.podspec`)
+
+EXTERNAL SOURCES:
+  RDLoveSeeker:
+    :path: ../../RDLoveSeeker.podspec
+
+SPEC CHECKSUMS:
+  OCMock: f6cb8c162ab9d5620dddf411282c7b2c0ee78854
+  RDLoveSeeker: fadff971716ad30a092a054d0f638d466f16b5a5
+
+COCOAPODS: 0.33.1
