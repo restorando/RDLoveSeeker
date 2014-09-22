@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "RDLoveSeeker"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.summary          = "RDLoveSeeker is a simple library for user feedback."
   s.description      = <<-DESC
                        RDLoveSeeker is a library that requests user feedback and delivers it to the app store for stars or an email compose view if feedback is negative.
